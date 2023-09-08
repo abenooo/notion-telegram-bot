@@ -26,8 +26,29 @@ bot.onText(/\/start/, async (msg) => {
   }
 });
 
+const databaseId = "bf63936480744c8296353404e36047af";
+
+
 async function checkForNotionUpdates() {
-  // Your logic to check for updates in Notion
-  // For now, let's return true to simulate an update
-  return true;
+  const filter = {
+    // Add your filter here if you want to filter the database entries
+  };
+  const sort = {
+    // Add your sorting criteria here if needed
+  };
+
+  const response = await notion.databases.query({
+    database_id: databaseId,
+    filter,
+    sort,
+  });
+
+  // For now, let's assume that any entry in the database is considered an update
+  // You should replace this logic with your own
+  if (response.results.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
+
