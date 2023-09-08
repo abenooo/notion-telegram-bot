@@ -31,25 +31,22 @@ const databaseId = "bf63936480744c8296353404e36047af";
 async function checkForNotionUpdates() {
     const filter = {
         property: "Status",
-        text: {
-          equals: "Completed"
+        select: {
+            equals: "Done"
         }
     };
 
-    let response;
-
     try {
-        response = await notion.databases.query({
+        const response = await notion.databases.query({
             database_id: databaseId,
-            filter
+            filter,
         });
-        
+
         if (response.results.length > 0) {
             return true;
         } else {
             return false;
         }
-
     } catch (error) {
         console.error(`Error: ${error.body}`);
         return false;
