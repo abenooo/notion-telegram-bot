@@ -28,27 +28,31 @@ bot.onText(/\/start/, async (msg) => {
 
 const databaseId = "bf63936480744c8296353404e36047af";
 
-
 async function checkForNotionUpdates() {
-  const filter = {
-    // Add your filter here if you want to filter the database entries
-  };
-  const sort = {
-    // Add your sorting criteria here if needed
-  };
+    const filter = {
+        property: "Status",
+        text: {
+          equals: "Completed"
+        }
+    };
 
-  const response = await notion.databases.query({
-    database_id: databaseId,
-    filter,
-    sort,
-  });
+    let response;
 
-  // For now, let's assume that any entry in the database is considered an update
-  // You should replace this logic with your own
-  if (response.results.length > 0) {
-    return true;
-  } else {
-    return false;
-  }
+    try {
+        response = await notion.databases.query({
+            database_id: databaseId,
+            filter
+        });
+        
+        if (response.results.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    } catch (error) {
+        console.error(`Error: ${error.body}`);
+        return false;
+    }
 }
 
