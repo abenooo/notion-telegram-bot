@@ -28,28 +28,37 @@ bot.onText(/\/start/, async (msg) => {
 
 const databaseId = "bf63936480744c8296353404e36047af";
 
+
+
 async function checkForNotionUpdates() {
+
     const filter = {
-        property: "Status",
-        select: {
-            equals: "Done"
+      and: [
+        {
+          property: 'title',
+          title: {
+            is_not_empty: true
+          }
         }
-    };
-
-    try {
-        const response = await notion.databases.query({
-            database_id: databaseId,
-            filter,
-        });
-
-        if (response.results.length > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        console.error(`Error: ${error.body}`);
-        return false;
+      ]
     }
-}
+    
+    try {
+      const response = await notion.databases.query({
+        database_id: databaseId,
+        filter: filter 
+      });
+  
+      return response.results.length > 0;
+  
+    } catch (error) {
+      console.error(`Error: ${error.message}`);
+      return false;
+    }
+  
+  }
+
+
+
+
 
