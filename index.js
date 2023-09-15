@@ -1,13 +1,14 @@
+require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const { Client } = require("@notionhq/client");
 
-const telegramBotToken = "6540561484:AAHFml6O3u93dPqDgqqFuSehMfzSY4eDwYQ";
+const telegramBotToken = process.env.telegramBotToken
 const bot = new TelegramBot(telegramBotToken, {polling: true});
 
-const notionApiKey = "secret_xGjap5jU8qNqqZ1e3xNBmp7AICXwaJ2Nu3tclUpMNSZ";
+const notionApiKey = process.env.notionApiKey;
 const notion = new Client({ auth: notionApiKey });
 
-const telegramGroupId = "400133281";
+const telegramGroupId = process.env.telegramGroupId;
 
 bot.on('message', (msg) => {
     const chatId = msg.chat.id; // This is your chat ID
@@ -26,7 +27,7 @@ bot.onText(/\/start/, async (msg) => {
   }
 });
 
-const databaseId = "bf63936480744c8296353404e36047af";
+const databaseId = process.env.databaseIddatabaseId;
 
 
 
